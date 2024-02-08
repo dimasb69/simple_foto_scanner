@@ -1,4 +1,4 @@
-<h2 aling="center"> {MomDontGo.Dev} -- Projects  | Simple Foto Scanner </h2>
+<h2 align="center"> {MomDontGo.Dev} -- Projects  | Simple Foto Scanner </h2>
 
 <h1 align="center"> Una aplicación simple para escanear</h1>
 <h1 align="center"> Ya sea Documentos o alguna imagen y poder hacer Corp</h1>
