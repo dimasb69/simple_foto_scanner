@@ -16,10 +16,10 @@ void main() {
   runApp(MyApp());
 }
 
+
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
-
 }
 
 
@@ -104,101 +104,34 @@ class _MyAppState extends State<MyApp> {
             ],
           ),
         ),
-        body: Column(
-          children: [
-            if (_scannedDocument != null || _scannedImage != null) ...[
-              if (imgChk)
-                Expanded(
-                  child: Image.file(_scannedImage!,
-                      height: double.maxFinite,
-                      width: double.maxFinite,
-                      fit: BoxFit.fill),
-                ),
-              if (docChk)
-                Expanded(
-                    child: PDFViewer(
-                      document: _scannedDocument!,
-                    )),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Text(fPath, style: const TextStyle(fontSize: 8, color: Colors.grey),),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                                (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed)) {
-                                return Theme.of(context).colorScheme.primary.withOpacity(0.5);
-                              }
-                            },
-                          ),
-                        ),
-                        child: const Text('Open File', style: TextStyle(fontSize: 16, color: Colors.blueGrey),),
-                        onPressed: () async{
-                          var openResult = 'Unknown';
-                          final pathFile = fPath;
-                          print('path: $pathFile');
-                          final path = pathFile;
-                          bool permissionReady = await checkPermission(context);
-                          if (permissionReady) {
-                          final result = await OpenFile.open(path);
-                          setState(() {
-                            result;
-                            //print('Tipo: ${result.type}');
-                            //print('Mensaje: ${result.message}');
-                            openResult = "type=${result.type}  message=${result.message}";
-                          });
-                          }
-                        },
-                          ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+        body: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(image: AssetImage("assets/scanner.png"), fit: BoxFit.fill)
+          ),
+          width: double.maxFinite,
+          height: double.maxFinite,
+          child: Column(
+            children: [
+              if (_scannedDocument != null || _scannedImage != null) ...[
+                if (imgChk)
                   Expanded(
-                    flex: 1,
-                    child: Builder(builder: (context) {
-                      return ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-                                (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed)) {
-                                return Theme.of(context).colorScheme.primary.withOpacity(0.5);
-                              }
-                            },
-                          ),
-                        ),
-                        onPressed: () => openPdfScanner(context),
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 25,
-                              height: 25,
-                              child: CircleAvatar(
-                                child: Image(image: AssetImage('assets/pdf.png')),
-                              ),
-                            ),
-                            SizedBox(width: 20),
-                            Text("Scan to PDF", style: TextStyle(fontSize: 16, color: Colors.black54),)
-                          ],
-                        )
-                      );
-                    }),
+                    child: Image.file(_scannedImage!,
+                        height: double.maxFinite,
+                        width: double.maxFinite,
+                        fit: BoxFit.fill),
                   ),
-                  const SizedBox(width: 8),
+                if (docChk)
                   Expanded(
-                    flex: 1,
-                    child: Builder(builder: (context) {
-                      return ElevatedButton(
+                      child: PDFViewer(
+                        document: _scannedDocument!,
+                      )),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text(fPath, style: const TextStyle(fontSize: 8, color: Colors.grey),),
+                        ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                                   (Set<MaterialState> states) {
@@ -208,7 +141,43 @@ class _MyAppState extends State<MyApp> {
                               },
                             ),
                           ),
-                          onPressed: () => openImageScanner(context),
+                          child: const Text('Open File', style: TextStyle(fontSize: 16, color: Colors.blueGrey),),
+                          onPressed: () async{
+                            var openResult = 'Unknown';
+                            final pathFile = fPath;
+                            print('path: $pathFile');
+                            final path = pathFile;
+                            bool permissionReady = await checkPermission(context);
+                            if (permissionReady) {
+                            final result = await OpenFile.open(path);
+                            setState(() {
+                              result;
+                              //print('Tipo: ${result.type}');
+                              //print('Mensaje: ${result.message}');
+                              openResult = "type=${result.type}  message=${result.message}";
+                            });
+                            }
+                          },
+                            ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Builder(builder: (context) {
+                        return ElevatedButton(
+                          style: const ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll(Color(
+                                0x96cdd2dc))
+                          ),
+                          onPressed: () => openPdfScanner(context),
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -216,20 +185,51 @@ class _MyAppState extends State<MyApp> {
                                 width: 25,
                                 height: 25,
                                 child: CircleAvatar(
-                                  child: Image(image: AssetImage('assets/jpg.png')),
+                                  child: Image(image: AssetImage('assets/pdf.png'), color: Color(
+                                      0xD8131313)
+                                  ),
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              Text("Scan to Image", style: TextStyle(fontSize: 16, color: Colors.black54),)
+                              SizedBox(width: 20),
+                              Text("Scan to PDF", style: TextStyle(fontSize: 16, color: Colors.black),)
                             ],
                           )
-                      );
-                    }),
-                  )
-                ],
-              ),
-            )
-          ],
+                        );
+                      }),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      flex: 1,
+                      child: Builder(builder: (context) {
+                        return ElevatedButton(
+                            style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color(
+                                0x96cdd2dc))
+                            ),
+                            onPressed: () => openImageScanner(context),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 25,
+                                  height: 25,
+                                  child: CircleAvatar(
+                                    child: Image(image: AssetImage('assets/jpg.png'),color: Color(
+                                        0xD0333232)
+                                    ),
+                                  ),
+                                  ),
+                                SizedBox(width: 10),
+                                Text("Scan to Image", style: TextStyle(fontSize: 16, color: Colors.black),)
+                              ],
+                            )
+                        );
+                      }),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
         bottomNavigationBar: bottomDevName(),
       ),

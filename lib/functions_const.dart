@@ -118,7 +118,7 @@ Widget bottomDevName() {
               child: const Text('Developed',
                   style: TextStyle(
                       fontSize: 12,
-                      color: Colors.blueGrey,
+                      color: Color(0xA6111111),
                       fontWeight: FontWeight.bold)),
             ),
           ),
@@ -131,10 +131,10 @@ Widget bottomDevName() {
                   throw Exception('Could not launch $url');
                 }
               },
-              child: const Text('By {MomDontGo.Dev}',
+              child: const Text(' By {MomDontGo.Dev}',
                   style: TextStyle(
                       fontSize: 12,
-                      color: Colors.blueGrey,
+                      color: Color(0xA6111111),
                       fontWeight: FontWeight.bold)),
             ),
           ),
