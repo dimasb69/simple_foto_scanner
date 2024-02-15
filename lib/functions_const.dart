@@ -20,9 +20,9 @@ var stat = false;
 Future<bool> checkPermission(BuildContext context) async {
 
   final androidInfo = await DeviceInfoPlugin().androidInfo;
-  var sdk = androidInfo.version.sdkInt.toString();
+  var sdk = androidInfo.version.sdkInt;
   late final Map<Permission, PermissionStatus> statuses;
-  if (sdk == "33" || sdk == "34") {
+  if (sdk! >= 33) {
     statuses = await [Permission.manageExternalStorage, Permission.photos].request();
   } else {
     statuses = await [

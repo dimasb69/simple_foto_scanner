@@ -1,6 +1,7 @@
 import 'dart:io';
 
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:document_scanner_flutter/document_scanner_flutter.dart';
 import 'package:document_scanner_flutter/configs/configs.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,16 @@ class _MyAppState extends State<MyApp> {
       setState(() {});
       await Future.delayed(const Duration(milliseconds: 100));
       _scannedDocumentFile = doc;
-      var doc2 = await doc.copy('/storage/emulated/0/Documents/ScanPdf_$dateFormat.pdf');
+      late var doc2;
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      final  _sdk = androidInfo.version.sdkInt;
+      if (_sdk! >= 30) {
+        doc2 =
+        await doc.copy('/storage/emulated/0/Documents/ScanPdf_$dateFormat.pdf');
+      }else{
+        doc2 = await doc.copy('/storage/emulated/0/Download/ScanPdf_$dateFormat.pdf');
+      }
+
       _scannedDocumentFile = doc2;
       _scannedDocument = await PDFDocument.fromFile(doc2);
 
