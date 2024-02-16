@@ -7,12 +7,13 @@
 <br>
 	Esta creado pensando en dar una herramienta util y sencilla para el día a día!! sin complicar mucho con funciones rebuscadas, simplemente que tomes tu teléfono abrir la App, escojas tu opción y listo toma la foto o las fotos que necesitas, ya sea de la cámara o de la galería!. De momento se anexa 1 a 1 en un futuro se implementara esa opción!
 <br>
-
+<br>
 <p align="center"> En la importacion del document scanner (donde se llama el metodo: DocumentScannerFlutter), existe una sub libreria de pdf_generator_gallery(donde se llama la a PdfGeneratotGallery) dentro esta funcion de onDone() la cual se modifica para que la imagen este mas acorde al tamaño de la hoja y con menos margen! 
 tambien se agrego la importacion de import 'package:pdf/pdf.dart'; para poder usar PdfPageFormat y el margin	
 anexo el codigo modificado!</p1>
-
-<p1 align="left"> 
+<br>
+<br>
+<p1 align="center"> 
 	onDone() async {
 		final pdf = pw.Document();
 		for (var file in files) {
