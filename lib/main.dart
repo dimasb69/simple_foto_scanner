@@ -1,13 +1,13 @@
 import 'dart:io';
-
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:document_scanner_flutter/document_scanner_flutter.dart';
 import 'package:document_scanner_flutter/configs/configs.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:open_file_plus/open_file_plus.dart';
-import 'package:pdf_ocr/functions_const.dart';
+import 'package:pdf_ocr/func_const/functions_const.dart';
+
+import 'func_const/bottom_nav.dart';
 
 late bool docChk;
 late bool imgChk;
