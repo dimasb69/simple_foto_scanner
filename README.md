@@ -8,3 +8,29 @@
 	Esta creado pensando en dar una herramienta util y sencilla para el día a día!! sin complicar mucho con funciones rebuscadas, simplemente que tomes tu teléfono abrir la App, escojas tu opción y listo toma la foto o las fotos que necesitas, ya sea de la cámara o de la galería!. De momento se anexa 1 a 1 en un futuro se implementara esa opción!
 
 
+en la importacion del document scanner, existe una sub libreria de pdf_generator_gallery donde es la funcion
+de onDone() la cual se modifica para que la imagen este mas acorde al tamaño de la hoja y con menos margen!
+anexo el codigo modificado!
+
+onDone() async {
+final pdf = pw.Document();
+for (var file in files) {
+pdf.addPage(pw.Page(pageFormat: PdfPageFormat.a4,
+margin: pw.EdgeInsets.all(10),
+build: (pw.Context context) {
+return pw.ConstrainedBox(
+constraints: pw.BoxConstraints.expand(),
+child: pw.FittedBox(
+fit: pw.BoxFit.fill,
+child: pw.Image(
+pw.MemoryImage(
+file.readAsBytesSync(),
+),
+),
+)
+);
+// Center
+}
+)
+);
+}

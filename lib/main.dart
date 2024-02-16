@@ -5,9 +5,9 @@ import 'package:document_scanner_flutter/configs/configs.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_pdf_viewer/easy_pdf_viewer.dart';
 import 'package:open_file_plus/open_file_plus.dart';
-import 'package:pdf_ocr/func_const/functions_const.dart';
-
+import 'package:pdf_ocr/func_const/permmisions.dart';
 import 'func_const/bottom_nav.dart';
+import 'func_const/functions.dart';
 
 late bool docChk;
 late bool imgChk;
@@ -29,67 +29,15 @@ class _MyAppState extends State<MyApp> {
   File? _scannedDocumentFile;
   File? _scannedImage;
 
-  openPdfScanner(BuildContext context) async {
-    var doc = await DocumentScannerFlutter.launchForPdf(
-      context,
-      labelsConfig: {
-        ScannerLabelsConfig.ANDROID_NEXT_BUTTON_LABEL: "Next Steps",
-        ScannerLabelsConfig.PDF_GALLERY_FILLED_TITLE_SINGLE: "Only 1 Page",
-        ScannerLabelsConfig.PDF_GALLERY_FILLED_TITLE_MULTIPLE:
-        "Only {PAGES_COUNT} Page"
-      },
-      //source: ScannerFileSource.CAMERA
-    );
-    if (doc != null) {
-      var dateFormat = getDateNow();
-      _scannedDocument = null;
-      setState(() {});
-      await Future.delayed(const Duration(milliseconds: 100));
-      _scannedDocumentFile = doc;
-      late var doc2;
-      final androidInfo = await DeviceInfoPlugin().androidInfo;
-      final  _sdk = androidInfo.version.sdkInt;
-      if (_sdk! >= 30) {
-        doc2 =
-        await doc.copy('/storage/emulated/0/Documents/ScanPdf_$dateFormat.pdf');
-      }else{
-        doc2 = await doc.copy('/storage/emulated/0/Download/ScanPdf_$dateFormat.pdf');
-      }
 
-      _scannedDocumentFile = doc2;
-      _scannedDocument = await PDFDocument.fromFile(doc2);
-
-      setState(() {
-        docChk=true;
-        imgChk=false;
-        fPath = _scannedDocumentFile!.path;
-      });
-    }
-  }
-
-  openImageScanner(BuildContext context) async {
-    var image = await DocumentScannerFlutter.launch(context,
-        //source: ScannerFileSource.CAMERA,
-        labelsConfig: {
-          ScannerLabelsConfig.ANDROID_NEXT_BUTTON_LABEL: "Next Step",
-          ScannerLabelsConfig.ANDROID_OK_LABEL: "OK"
-        });
-    if (image != null) {
-      _scannedImage = image;
-      setState(() {
-        imgChk=true;
-        docChk=false;
-        fPath = _scannedImage!.path;
-      });
-    }
-
-  }
 @override
   void initState() {
     checkPermission(context);
     checkWritePermission();
     super.initState();
   }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -116,7 +64,7 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Container(
           decoration: const BoxDecoration(
-              image: DecorationImage(image: AssetImage("assets/scanner.png"), fit: BoxFit.fill)
+              image: DecorationImage(image: AssetImage("assets/scanner.png"), fit: BoxFit.none)
           ),
           width: double.maxFinite,
           height: double.maxFinite,
@@ -247,13 +195,60 @@ class _MyAppState extends State<MyApp> {
   }
 
 
-  String getDateNow () {
-    var d = DateTime.now();
-    final hours = d.hour.toString().padLeft(2, '0');
-    final minutes = d.minute.toString().padLeft(2, '0');
-    final seconds = d.second.toString().padLeft(2, '0');
-    var date = '${d.day}${d.month}${d.year}$hours$minutes$seconds';
-    return date.toString();
+  openPdfScanner(BuildContext context) async {
+    var doc = await DocumentScannerFlutter.launchForPdf(
+      context,
+      labelsConfig: {
+        ScannerLabelsConfig.ANDROID_NEXT_BUTTON_LABEL: "Next Steps",
+        ScannerLabelsConfig.PDF_GALLERY_FILLED_TITLE_SINGLE: "Only 1 Page",
+        ScannerLabelsConfig.PDF_GALLERY_FILLED_TITLE_MULTIPLE:
+        "Only {PAGES_COUNT} Page"
+      },
+      //source: ScannerFileSource.CAMERA
+    );
+    if (doc != null) {
+      var dateFormat = getDateNow();
+      _scannedDocument = null;
+      setState(() {});
+      await Future.delayed(const Duration(milliseconds: 100));
+      _scannedDocumentFile = doc;
+      late var doc2;
+      final androidInfo = await DeviceInfoPlugin().androidInfo;
+      final  _sdk = androidInfo.version.sdkInt;
+      if (_sdk! >= 30) {
+        doc2 =
+        await doc.copy('/storage/emulated/0/Documents/ScanPdf_$dateFormat.pdf');
+      }else{
+        doc2 = await doc.copy('/storage/emulated/0/Download/ScanPdf_$dateFormat.pdf');
+      }
+
+      _scannedDocumentFile = doc2;
+      _scannedDocument = await PDFDocument.fromFile(doc2);
+
+      setState(() {
+        docChk=true;
+        imgChk=false;
+        fPath = _scannedDocumentFile!.path;
+      });
+    }
+  }
+
+  openImageScanner(BuildContext context) async {
+    var image = await DocumentScannerFlutter.launch(context,
+        //source: ScannerFileSource.CAMERA,
+        labelsConfig: {
+          ScannerLabelsConfig.ANDROID_NEXT_BUTTON_LABEL: "Next Step",
+          ScannerLabelsConfig.ANDROID_OK_LABEL: "OK"
+        });
+    if (image != null) {
+      _scannedImage = image;
+      setState(() {
+        imgChk=true;
+        docChk=false;
+        fPath = _scannedImage!.path;
+      });
+    }
+
   }
 
 }
