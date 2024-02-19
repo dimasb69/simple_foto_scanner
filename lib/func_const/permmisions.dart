@@ -17,10 +17,15 @@ Future<bool> checkPermission(BuildContext context) async {
       Permission.manageExternalStorage,
       Permission.photos
     ].request();
-  } else {
+  } else if (sdk <= 29){
+    statuses = await [
+      Permission.storage
+    ].request();
+  }else {
     statuses = await [
       Permission.manageExternalStorage,
-      Permission.storage
+      Permission.storage,
+      Permission.mediaLibrary,
     ].request();
   }
 

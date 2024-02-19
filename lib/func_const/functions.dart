@@ -8,3 +8,8 @@ String getDateNow () {
   var date = '${d.day}${d.month}${d.year}$hours$minutes$seconds';
   return date.toString();
 }
+
+
+Future<void> sleepTime(dur) async {
+  await Future.delayed(Duration(seconds: dur));
+}
